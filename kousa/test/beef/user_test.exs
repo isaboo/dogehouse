@@ -43,6 +43,13 @@ defmodule Kousa.Beef.UserTest do
     test "by user_id", %{user: user = %{id: id}} do
       assert [^id] = Users.find_by_github_ids([user.githubId])
     end
+
+    test "by searching username", %{user: %{id: id, username: username}} do
+      assert [%{id: ^id}] = Users.search_username("@" <> username)
+      assert [%{id: ^id}] = Users.search_username(username)
+      assert [%{id: ^id}] = Users.search_username(String.slice(username, 0..2))
+      assert [] = Users.search_username("akljdsjoqwdijo12")
+    end
   end
 
   describe "when you edit a user" do
@@ -54,6 +61,17 @@ defmodule Kousa.Beef.UserTest do
                  id,
                  %{username: "tim", displayName: "tim", bio: ""}
                )
+    end
+
+    test "with avatar_url that is not from twitter/github", %{user: %{id: id}} do
+      assert {:error, _} =
+               Users.edit_profile(id, %{
+                 username: "timmy",
+                 displayName: "tim",
+                 bio: "",
+                 avatarUrl:
+                   "https://bit.ly/3dzG9DB#https://avatars.githubusercontent.com/u/44095206?v=4"
+               })
     end
 
     test "with empty bio", %{user: %{id: id}} do

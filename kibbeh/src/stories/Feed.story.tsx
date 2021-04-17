@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck @todo this file needs to be fixed
+
 import { Feed, FeedProps } from "../ui/Feed";
 import { Story } from "@storybook/react";
 import { GbFlagIcon as Icon } from "./utils/GbFlagIcon";
@@ -45,7 +48,7 @@ export const Main: Story<FeedProps> = ({
   ],
   emptyPlaceholder = <p>nothing to see here</p>,
 }) => (
-  <div style={{ width: 640 }}>
+  <div className="flex" style={{ width: 640 }}>
     <Feed
       title={title}
       actionTitle={actionTitle}
@@ -94,7 +97,7 @@ export const NothingLive: Story<FeedProps> = ({
     },
   ],
 }) => (
-  <div style={{ width: 640 }}>
+  <div className="flex" style={{ width: 640 }}>
     <Feed
       title={title}
       actionTitle={actionTitle}
@@ -143,7 +146,7 @@ export const NothingScheduled: Story<FeedProps> = ({
     },
   ],
 }) => (
-  <div style={{ width: 640 }}>
+  <div className="flex" style={{ width: 640 }}>
     <Feed
       title={title}
       actionTitle={actionTitle}
@@ -165,7 +168,7 @@ export const Empty: Story<FeedProps> = ({
     <p className="text-primary-100 justify-center">(nothing to see here)</p>
   ),
 }) => (
-  <div style={{ width: 640 }}>
+  <div className="flex" style={{ width: 640 }}>
     <Feed
       title={title}
       actionTitle={actionTitle}

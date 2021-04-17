@@ -6,6 +6,8 @@ defmodule Beef.Schemas.User do
   defmodule Preview do
     use Ecto.Schema
 
+    # TODO: Make this a separate Schema that sees the same table.
+
     @derive {Poison.Encoder, only: [:id, :displayName, :numFollowers]}
     @primary_key false
     embedded_schema do
@@ -23,9 +25,11 @@ defmodule Beef.Schemas.User do
           id: Ecto.UUID.t(),
           twitterId: String.t(),
           githubId: String.t(),
+          discordId: String.t(),
           username: String.t(),
           email: String.t(),
           githubAccessToken: String.t(),
+          discordAccessToken: String.t(),
           displayName: String.t(),
           avatarUrl: String.t(),
           bio: String.t(),
@@ -51,9 +55,11 @@ defmodule Beef.Schemas.User do
   schema "users" do
     field(:githubId, :string)
     field(:twitterId, :string)
+    field(:discordId, :string)
     field(:username, :string)
     field(:email, :string)
     field(:githubAccessToken, :string)
+    field(:discordAccessToken, :string)
     field(:displayName, :string)
     field(:avatarUrl, :string)
     field(:bio, :string, default: "")
@@ -74,8 +80,11 @@ defmodule Beef.Schemas.User do
   end
 
   @doc false
-  def changeset(user, _attrs) do
+  def changeset(user, attrs) do
+    # TODO: amend this to accept *either* githubId or twitterId and also
+    # pipe edit_changeset into this puppy.
     user
+    |> cast(attrs, ~w(username githubId avatarUrl)a)
     |> validate_required([:username, :githubId, :avatarUrl])
   end
 
@@ -89,7 +98,7 @@ defmodule Beef.Schemas.User do
     |> validate_format(:username, ~r/^(\w){4,15}$/)
     |> validate_format(
       :avatarUrl,
-      ~r/https?:\/\/(www\.|)(pbs.twimg.com\/profile_images\/(.*)\.(jpg|png|jpeg|webp)|avatars\.githubusercontent\.com\/u\/)/
+      ~r/^https?:\/\/(www\.|)(pbs.twimg.com\/profile_images\/(.*)\.(jpg|png|jpeg|webp)|avatars\.githubusercontent\.com\/u\/)/
     )
     |> unique_constraint(:username)
   end

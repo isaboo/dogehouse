@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck @todo this file needs to be fixed
+
 import React from "react";
 
 import { render } from "../../../../test-utils";
@@ -7,7 +10,7 @@ describe("AccountOverlay", () => {
   it("should render correctly", () => {
     const { getByTestId, getByText } = render(
       <AccountOverlay>
-        <div>Child</div>
+        <div className="flex">Child</div>
       </AccountOverlay>
     );
     const component = getByTestId("account-overlay");
@@ -20,7 +23,7 @@ describe("AccountOverlay", () => {
   it("should match snapshot", () => {
     const { getByTestId } = render(
       <AccountOverlay>
-        <div>Child</div>
+        <div className="flex">Child</div>
       </AccountOverlay>
     );
     const component = getByTestId("account-overlay");

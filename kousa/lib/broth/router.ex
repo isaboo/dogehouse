@@ -2,6 +2,7 @@ defmodule Broth do
   import Plug.Conn
 
   alias Broth.Routes.GitHubAuth
+  alias Broth.Routes.DiscordAuth
   alias Broth.Routes.TwitterAuth
   alias Broth.Routes.ScheduledRoom
   alias Broth.Routes.Dev
@@ -14,23 +15,21 @@ defmodule Broth do
   plug(:dispatch)
 
   options _ do
-    conn
-    |> send_resp(200, "")
+    send_resp(conn, 200, "")
   end
 
   forward("/auth/github", to: GitHubAuth)
   forward("/auth/twitter", to: TwitterAuth)
+  forward("/auth/discord", to: DiscordAuth)
   # forward("/me", to: Kousa.Me)
   forward("/dev", to: Dev)
   forward("/scheduled-room", to: ScheduledRoom)
 
   get _ do
-    conn
-    |> send_resp(404, "not found")
+    send_resp(conn, 404, "not found")
   end
 
   post _ do
-    conn
-    |> send_resp(404, "not found")
+    send_resp(conn, 404, "not found")
   end
 end
